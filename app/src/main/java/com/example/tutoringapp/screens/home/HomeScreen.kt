@@ -38,8 +38,8 @@ fun HomeScreen(navController: NavController,
     var message  by remember { mutableStateOf("") }
 
     Scaffold(
-        topBar    = { MyTopAppBar(onSettingsClick)},
-        bottomBar = { BottomNavBar() },
+        //topBar    = { MyTopAppBar(onSettingsClick)},
+        //bottomBar = { BottomNavBar(navController) },
         floatingActionButton = {
             FloatingActionButton(onClick = { showForm = !showForm }, containerColor = Color(0xFFA5D6A7)) {
                 if (showForm){

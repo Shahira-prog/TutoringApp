@@ -58,7 +58,6 @@ fun ContactUs(modifier: Modifier = Modifier,
         .clip(RoundedCornerShape(16.dp))            // rounded corners
         .background(Color(0xFFA5D6A7))
         .padding(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))){
         Column {
             Text(

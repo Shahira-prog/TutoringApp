@@ -13,35 +13,39 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.tutoringapp.navigation.Screens
 
 @Composable
-fun BottomNavBar(){
+fun BottomNavBar( navController: NavController){
     val currentRoute = ""
 
     val items = listOf(
         BottomNavItem(
             title = "Home",
             icon = Icons.Default.Home,
-            route = "Home"
+            route = Screens.Home.route
         ),
         BottomNavItem(
             title = "Payment",
             icon = Icons.Default.ShoppingCart,
-            route = "Payment"
+            route = Screens.Payment.route
         ),
         BottomNavItem(
             title = "Reviews",
             icon = Icons.Default.Star,
-            route = "Reviews"
+            route = Screens.Reviews.route
         ),
         BottomNavItem(
             title = "My Account",
             icon = Icons.Default.AccountCircle,
-            route = "Account"
+            route = Screens.Account.route
         )
     )
     NavigationBar(
@@ -49,6 +53,11 @@ fun BottomNavBar(){
         containerColor = Color(0xFFA5D6A7),
         tonalElevation = 8.dp
     ) {
+        //converting the current nav backstack entry into a state
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        //getting the route of the current destination
+        val currentRoute = navBackStackEntry?.destination?.route
+
         items.forEach{item ->
             NavigationBarItem(
                 icon = {
@@ -60,7 +69,13 @@ fun BottomNavBar(){
                 },
                 label = {Text(item.title)},
                 selected = currentRoute == item.route,
-                onClick = { /*TODO*/ })
+                onClick = {navController.navigate(item.route){
+                    popUpTo(navController.graph.startDestinationId)
+                    launchSingleTop = true
+                }
+                },
+                alwaysShowLabel = true
+            )
         }
     }
 }

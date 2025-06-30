@@ -24,10 +24,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.example.tutoringapp.navigation.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopAppBar(onSettingsClick: () -> Unit) {
+fun MyTopAppBar(onSettingsClick: () -> Unit,
+                onCrashCoursesClick: () -> Unit,
+                onTutoringClick: () -> Unit,
+                onHiringClick: () -> Unit
+) {
     var expanded by remember { mutableStateOf(false) } //holds menu state
     TopAppBar(
         navigationIcon = {
@@ -45,26 +50,22 @@ fun MyTopAppBar(onSettingsClick: () -> Unit) {
                 ){
                     DropdownMenuItem(
                         text = { Text("Crash Courses") },
-                        onClick = { /* Handle Item 1 click */ }
+                        onClick = { onCrashCoursesClick() }
                     )
                     DropdownMenuItem(
                         text = { Text("Tutoring") },
-                        onClick = { /* Handle Item 2 click */ }
+                        onClick = { onTutoringClick() }
                     )
                     DropdownMenuItem(
                         text = { Text("Hiring") },
-                        onClick = { /* Handle Item 3 click */ }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("About Us") },
-                        onClick = { /* Handle Item 4 click */ }
+                        onClick = { onHiringClick() }
                     )
                 }
             }
         },
         title = {
             Text(
-                text = "MyU Academy fff",
+                text = "MyU Academy",
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineLarge.copy(
