@@ -2,8 +2,9 @@ package com.example.tutoringapp.navigation
 
 sealed class Screens(val route: String) {
     object Home : Screens("home")
-    object Account : Screens("account")
     object Settings : Screens("settings")
+    object UserAccount : Screens("useraccount")
+    object AdminAccount : Screens("adminaccount")
    object Login : Screens("login")
    object SignUp : Screens("signup")
     object Reviews : Screens("reviews")
@@ -11,4 +12,7 @@ sealed class Screens(val route: String) {
     object Tutoring : Screens("tutoring")
     object CrashCourses : Screens("crashcourses")
     object Hiring : Screens("hiring")
+    object AdminLogin : Screens("adminlogin")
+
+
 }

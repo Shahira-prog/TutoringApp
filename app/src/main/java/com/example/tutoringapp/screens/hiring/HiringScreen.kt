@@ -57,7 +57,6 @@ fun HiringScreen(
 ) {
     Card(
         modifier = modifier
-            .width(10.dp)
             .requiredSize(width = 380.dp, height = 650.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(Color(0xFFA5D6A7))
@@ -194,7 +193,7 @@ fun HiringFabScreen(
 ) {
     var showForm by remember { mutableStateOf(true) }
     Box(
-        //modifier = Modifier.height(200.dp).width(200.dp),
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         AnimatedVisibility(visible = showForm) {

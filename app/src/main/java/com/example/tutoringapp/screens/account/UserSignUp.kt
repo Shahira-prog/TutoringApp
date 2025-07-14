@@ -14,6 +14,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,23 +26,31 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.tutoringapp.viewmodels.AuthViewModel
 
 @Composable
 fun UserSignUp(onNavigateToLogin: () -> Unit,
-               onSignUpSuccess: () -> Unit,)
+               onSignUpSuccess: () -> Unit,
+               authViewModel: AuthViewModel = hiltViewModel())
 {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    var passwordError by remember { mutableStateOf<String?>(null) }
+    var authError by remember { mutableStateOf<String?>(null) }
 
     // auth state
-    val authState = true
+    val authState by authViewModel.authState.collectAsState()
 
-    var passwordError by remember { mutableStateOf<String?>(null) }
 
-    if (authState) {
-        onSignUpSuccess()
+    LaunchedEffect(authState) {
+        if (authState is AuthViewModel.AuthState.Success) {
+            onSignUpSuccess()
+        } else if (authState is AuthViewModel.AuthState.Error) {
+            authError = (authState as AuthViewModel.AuthState.Error).message
+        }
     }
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
@@ -52,6 +62,10 @@ fun UserSignUp(onNavigateToLogin: () -> Unit,
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 32.dp)
         )
+        if (authError != null) {
+            Text(authError!!, color = MaterialTheme.colorScheme.error)
+            Spacer(Modifier.height(8.dp))
+        }
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -90,7 +104,7 @@ fun UserSignUp(onNavigateToLogin: () -> Unit,
             {
                 passwordError?.let {
                     Text(
-                        text = it,
+                        it,
                         color = MaterialTheme.colorScheme.error
                     )
                 }
@@ -105,13 +119,16 @@ fun UserSignUp(onNavigateToLogin: () -> Unit,
                     passwordError = "Password must be at least 6 characters"
                 } else {
                     passwordError = null
+                    authError = null
                     // viewmodel call
+                    authViewModel.signUp("user", email, password)
 
                 }
             },
             modifier = Modifier.fillMaxWidth().height(50.dp),
         ) {
             Text(text = "Sign Up")
+        }
 
             Spacer(modifier = Modifier.height(16.dp))
             TextButton(onClick = onNavigateToLogin) {
@@ -119,4 +136,3 @@ fun UserSignUp(onNavigateToLogin: () -> Unit,
             }
         }
     }
-}

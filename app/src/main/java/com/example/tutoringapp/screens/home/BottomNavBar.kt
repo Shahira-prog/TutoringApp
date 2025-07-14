@@ -13,18 +13,33 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.tutoringapp.navigation.Screens
+import com.example.tutoringapp.viewmodels.AuthViewModel
 
 @Composable
-fun BottomNavBar( navController: NavController){
-    val currentRoute = ""
+fun BottomNavBar( navController: NavController,
+                  authViewModel: AuthViewModel = hiltViewModel())
+{
+    val isAdmin by authViewModel.isAdminLogin.collectAsState()
+    val isLoggedIn by remember { derivedStateOf { authViewModel.isLoggedIn } }
+
+    // pick the right route
+    val accountRoute = if (isAdmin) {
+        Screens.AdminAccount.route
+    } else {
+        Screens.UserAccount.route
+    }
 
     val items = listOf(
         BottomNavItem(
@@ -45,7 +60,7 @@ fun BottomNavBar( navController: NavController){
         BottomNavItem(
             title = "My Account",
             icon = Icons.Default.AccountCircle,
-            route = Screens.Account.route
+            route = accountRoute
         )
     )
     NavigationBar(
@@ -69,10 +84,16 @@ fun BottomNavBar( navController: NavController){
                 },
                 label = {Text(item.title)},
                 selected = currentRoute == item.route,
-                onClick = {navController.navigate(item.route){
-                    popUpTo(navController.graph.startDestinationId)
-                    launchSingleTop = true
-                }
+                onClick = {
+                    val target = if (!authViewModel.isLoggedIn && item.route == accountRoute)
+                        Screens.Login.route
+                    else
+                        item.route
+
+                    navController.navigate(target) {
+                        popUpTo(navController.graph.startDestinationId) { saveState = true }
+                        launchSingleTop = true
+                    }
                 },
                 alwaysShowLabel = true
             )

@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -58,8 +62,36 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     dependencies {
-        val nav_version = "2.9.0"
 
-        implementation("androidx.navigation:navigation-compose:$nav_version")
+        //firebase
+        implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
+        implementation("com.google.firebase:firebase-auth")
+        implementation("com.google.firebase:firebase-firestore")
+
+        //hilt
+        implementation("com.google.dagger:hilt-android:2.56.2")
+        ksp("com.google.dagger:hilt-android-compiler:2.56.2")
+        implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+        //room
+        val room_version = "2.7.2"
+
+        implementation("androidx.room:room-runtime:$room_version")
+        ksp("androidx.room:room-compiler:$room_version")
+        implementation("androidx.room:room-ktx:$room_version")
+
+        //coroutines
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.1")
+
+        //coil
+        implementation("io.coil-kt.coil3:coil-compose:3.2.0")
+        implementation("io.coil-kt.coil3:coil-network-okhttp:3.2.0")
+
+        implementation ("com.google.accompanist:accompanist-pager:0.36.0")
+
+
+
+
+
     }
 }

@@ -1,10 +1,10 @@
-package com.example.tutoringapp.screens.home
+package com.example.tutoringapp.screens.account
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,8 +24,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -38,44 +38,50 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ContactUs(modifier: Modifier = Modifier,
-              name: String = "",
-              onNameChange: (String) -> Unit = {},
-              email: String = "",
-              onEmailChange: (String) -> Unit = {},
-              phone: Int = 0,
-              onPhoneChange: (Int) -> Unit = {},
-              message: String = "",
-              onMessageChange: (String) -> Unit = {},
-              onSend: () -> Unit = {}
+fun Registration(
+    modifier: Modifier = Modifier,
+    firstName: String = "",
+    onFirstNameChange: (String) -> Unit = {},
+    lastName: String = "",
+    onLastNameChange: (String) -> Unit = {},
+    email: String = "",
+    onEmailChange: (String) -> Unit = {},
+    phone: Int = 0,
+    onPhoneChange: (Int) -> Unit = {},
+    dob: Int = 0,
+    onDobChange: (Int) -> Unit = {},
+    gradeLevel: Int = 0,
+    onGradeLevelChange: (Int) -> Unit = {},
+    selectedOption: String,
+    onOptionChange: (String) -> Unit,
+    onSend: () -> Unit = {}
 )
 {
     Card(modifier = Modifier.width(280.dp)
-        .border(2.dp, Color.Black, shape = RectangleShape)
-        .background(Color.White)
+        .clip(RoundedCornerShape(16.dp))            // rounded corners
+        .background(Color(0xFFA5D6A7))
         .padding(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)){
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))){
         Column {
             Text(
-                text = "Contact Us",
+                text = "Registration",
                 style = MaterialTheme.typography.headlineMedium.copy(
-                    color = Color(0xFF125E12),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontWeight = FontWeight.Bold)
-                )
+            )
 
             Spacer(modifier = Modifier.height(12.dp))
 
             OutlinedTextField(
-                value            = name,
-                onValueChange    = onNameChange,
-                label            = { Text("Name") },
+                value            = firstName,
+                onValueChange    = onFirstNameChange,
+                label            = { Text("First Name") },
                 singleLine       = true,
                 modifier         = Modifier.fillMaxWidth(),
                 colors           = TextFieldDefaults.outlinedTextFieldColors(
@@ -84,6 +90,17 @@ fun ContactUs(modifier: Modifier = Modifier,
             )
 
             Spacer(Modifier.height(8.dp))
+
+            OutlinedTextField(
+                value            = lastName,
+                onValueChange    = onLastNameChange,
+                label            = { Text("Last Name") },
+                singleLine       = true,
+                modifier         = Modifier.fillMaxWidth(),
+                colors           = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.White
+                )
+            )
 
             OutlinedTextField(
                 value            = email,
@@ -114,13 +131,26 @@ fun ContactUs(modifier: Modifier = Modifier,
             Spacer(Modifier.height(8.dp))
 
             OutlinedTextField(
-                value            = message,
-                onValueChange    = onMessageChange,
-                label            = { Text("Message") },
+                value            = dob.toString(),
+                onValueChange    = {onDobChange(it.toIntOrNull() ?: 0)},
+                label            = { Text("Date of Birth") },
                 singleLine       = false,
-                modifier         = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp),
+                modifier         = Modifier.fillMaxWidth(),
+                keyboardOptions  = KeyboardOptions(keyboardType = KeyboardType.Number),
+                colors           = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.White
+                )
+            )
+
+            Spacer(Modifier.height(8.dp))
+
+            OutlinedTextField(
+                value            = gradeLevel.toString(),
+                onValueChange    = {onGradeLevelChange(it.toIntOrNull() ?: 0)},
+                label            = { Text("Grade Level") },
+                singleLine       = false,
+                modifier         = Modifier.fillMaxWidth(),
+                keyboardOptions  = KeyboardOptions(keyboardType = KeyboardType.Number),
                 colors           = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White
                 )
@@ -128,33 +158,57 @@ fun ContactUs(modifier: Modifier = Modifier,
 
             Spacer(Modifier.height(12.dp))
 
-            Button(
-                onClick  = onSend,
-                modifier = Modifier.align(Alignment.End),
-                colors   = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF125E12),
-                    contentColor   = Color.White
-                )
+                Button(
+                    onClick  = onSend,
+                    modifier = Modifier.align(Alignment.End),
+                    colors   = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF125E12),
+                        contentColor   = Color.White
+                    )
+                ) {
+                    Text("Register")
+                }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Send")
+                RadioButton(
+                    selected = (selectedOption == "I Accept"),
+                    onClick  = { onOptionChange("I Accept") }
+                )
+                Text("I agree", modifier = Modifier.padding(end = 8.dp))
+
+                RadioButton(
+                    selected = (selectedOption == "I Do Not Accept"),
+                    onClick  = { onOptionChange("I Do Not Accept") }
+                )
+                Text("I disagree")
+
+                // push the button to the far end
+                Spacer(Modifier.weight(1f))
             }
 
         }
     }
 }
 @Composable
-fun ContactUsFabScreen(
-    name: String = "",
-    onNameChange: (String) -> Unit = {},
+fun RegistrationFabScreen(
+    firstName: String = "",
+    onFirstNameChange: (String) -> Unit = {},
+    lastName: String = "",
+    onLastNameChange: (String) -> Unit = {},
     email: String = "",
     onEmailChange: (String) -> Unit = {},
     phone: Int = 0,
     onPhoneChange: (Int) -> Unit = {},
-    message: String = "",
-    onMessageChange: (String) -> Unit = {},
+    gradeLevel: Int = 0,
+    onGradeLevelChange: (Int) -> Unit = {},
+    dob: Int = 0,
+    onDobChange: (Int) -> Unit = {},
     onSend: () -> Unit = {}
 ) {
     var showForm by remember { mutableStateOf(false) }
+    var selectedOption by remember { mutableStateOf("I Accept") }
 
     Scaffold(
         floatingActionButton = {
@@ -163,9 +217,10 @@ fun ContactUsFabScreen(
                 containerColor = Color(0xFFA5D6A7)
             ) {
                 Icon(
-                    imageVector = Icons.Default.Email,
-                    contentDescription = "Contact Us"
+                    imageVector = if (showForm) Icons.Default.Close else Icons.Default.Email,
+                    contentDescription = "Register Now"
                 )
+
             }
         }
     ) { paddingValues ->
@@ -176,22 +231,29 @@ fun ContactUsFabScreen(
             contentAlignment = Alignment.TopCenter
         ) {
             AnimatedVisibility(visible = showForm) {
-                ContactUs(
+                com.example.tutoringapp.screens.account.Registration(
                     modifier = Modifier.padding(top = 16.dp),
-                    name = name,
-                    onNameChange = onNameChange,
+                    firstName = firstName,
+                    onFirstNameChange = onFirstNameChange,
+                    lastName = lastName,
+                    onLastNameChange = onLastNameChange,
                     email = email,
                     onEmailChange = onEmailChange,
                     phone = phone,
                     onPhoneChange = onPhoneChange,
-                    message = message,
-                    onMessageChange = onMessageChange,
+                    gradeLevel = gradeLevel,
+                    onGradeLevelChange = onGradeLevelChange,
+                    dob = dob,
+                    onDobChange = onDobChange,
+                    selectedOption = selectedOption,
+                    onOptionChange = { selectedOption = it },
                     onSend = {
                         onSend()
                         showForm = false
                     }
                 )
             }
+
         }
     }
 }
