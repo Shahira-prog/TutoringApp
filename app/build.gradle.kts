@@ -9,15 +9,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.tutoringapp"
+    namespace = "com.shahira.myuacademy"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.tutoringapp"
+        applicationId = "com.shahira.myuacademy"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
