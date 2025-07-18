@@ -141,7 +141,7 @@ class MainActivity : ComponentActivity() {
                             SettingsScreen(navController = navController)
                         }
                         composable(Screens.Reviews.route) {
-                            ReviewsScreen(navController = navController)
+                            ReviewsScreen(navController = navController,reviewViewModel = hiltViewModel(), innerPadding   = innerPadding)
                         }
                         composable(Screens.Payment.route) {
                             PaymentScreen(navController = navController)

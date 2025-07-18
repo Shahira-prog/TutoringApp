@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.shahira.myuacademy.room.AppDatabase
 import com.shahira.myuacademy.room.RegistrationDao
+import com.shahira.myuacademy.room.ReviewDAO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,4 +28,9 @@ object DatabaseModule {
     @Provides
     fun provideRegistrationDao(db: AppDatabase): RegistrationDao =
         db.registrationDao()
+
+    @Provides
+    @Singleton                     // scope it so Hilt only calls it once
+    fun provideReviewDao(db: AppDatabase): ReviewDAO =
+        db.reviewDao()
 }

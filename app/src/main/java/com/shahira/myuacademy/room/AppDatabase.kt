@@ -5,12 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.shahira.myuacademy.dataclasses.RegistrationEntity
+import com.shahira.myuacademy.dataclasses.Review
 
 // creates database with registrations table inside
-@Database(entities = [RegistrationEntity::class], version = 4)
+@Database(entities = [RegistrationEntity::class, Review::class], version = 5)
 abstract class AppDatabase : RoomDatabase() {
     // connects database to dao (to communicate with database)
     abstract fun registrationDao(): RegistrationDao
+    abstract fun reviewDao(): ReviewDAO
 
     companion object {
         // keeps one instance of the database so we don't create multiple each time
