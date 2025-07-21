@@ -4,14 +4,28 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -25,6 +39,7 @@ import com.shahira.myuacademy.screens.account.UserSignUp
 import com.shahira.myuacademy.screens.crashcourses.CrashCoursesScreen
 import com.shahira.myuacademy.screens.hiring.HiringFabScreen
 import com.shahira.myuacademy.screens.home.BottomNavBar
+import com.shahira.myuacademy.screens.home.ContactUs
 import com.shahira.myuacademy.screens.home.HomeScreen
 import com.shahira.myuacademy.screens.home.MyTopAppBar
 import com.shahira.myuacademy.screens.payment.PaymentScreen
@@ -44,6 +59,12 @@ class MainActivity : ComponentActivity() {
             // navigation
             val navController = rememberNavController()
 
+            var showForm by remember { mutableStateOf(false) }
+            var name by remember { mutableStateOf("") }
+            var email by remember { mutableStateOf("") }
+            var phone by remember { mutableStateOf(0) }
+            var message by remember { mutableStateOf("") }
+
             // auth view model
             val authViewModel : AuthViewModel = hiltViewModel()
 
@@ -55,44 +76,66 @@ class MainActivity : ComponentActivity() {
             }
 
             Scaffold(
-            // both always on screen
+            // all 3 always on screen
             topBar    = { MyTopAppBar(
                 onSettingsClick = { navController.navigate(Screens.Settings.route) },
                 onCrashCoursesClick = { navController.navigate(Screens.CrashCourses.route) },
                 onTutoringClick = { navController.navigate(Screens.Tutoring.route) },
                 onHiringClick = { navController.navigate(Screens.Hiring.route) }) },
 
-            bottomBar = { BottomNavBar(navController) }
-            ){ innerPadding ->
-                NavHost(
-                    navController    = navController,
-                    startDestination = Screens.Home.route,
-                    modifier         = Modifier
+            bottomBar = { BottomNavBar(navController) },
+
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = { showForm = !showForm },
+                        containerColor = Color(0xFF125E12),
+                    ) {
+                        Text(
+                            "Contact Us",
+                            modifier = Modifier.padding(10.dp),
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    }
+                },
+                floatingActionButtonPosition = FabPosition.End,
+            )
+
+            { innerPadding ->
+                Box(
+                    Modifier
                         .fillMaxSize()
                         .padding(innerPadding)
                 ) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screens.Home.route,
+                        modifier = Modifier
+                            .fillMaxSize()
+                        //.padding(innerPadding)
+                    ) {
                         //each screen is a composable function
-                    composable(Screens.Home.route) {
-                        val authViewModel: AuthViewModel = hiltViewModel()
-                        val isAdmin by authViewModel
-                            .isAdminLogin
-                            .collectAsState(initial = false)
+                        composable(Screens.Home.route) {
+                            val authViewModel: AuthViewModel = hiltViewModel()
+                            val isAdmin by authViewModel
+                                .isAdminLogin
+                                .collectAsState(initial = false)
 
-                        HomeScreen(
-                            navController = navController,
-                            onAccountClick = {
-                                val dest = if (isAdmin)
-                                    Screens.AdminAccount.route
-                                else
-                                    Screens.UserAccount.route
+                            HomeScreen(
+                                navController = navController,
+                                onAccountClick = {
+                                    val dest = if (isAdmin)
+                                        Screens.AdminAccount.route
+                                    else
+                                        Screens.UserAccount.route
 
-                                navController.navigate(dest) {
-                                    popUpTo(Screens.Home.route) { inclusive = false }
-                                }
-                            },
-                            onSettingsClick = { navController.navigate(Screens.Settings.route) }
-                        )
-                    }
+                                    navController.navigate(dest) {
+                                        popUpTo(Screens.Home.route) { inclusive = false }
+                                    }
+                                },
+                                onSettingsClick = { navController.navigate(Screens.Settings.route) }
+                            )
+                        }
                         composable(Screens.UserAccount.route) {
                             UserAccount(navController = navController, onSignOut = {
                                 authViewModel.signOut()
@@ -105,7 +148,7 @@ class MainActivity : ComponentActivity() {
                             UserLogin(
                                 onNavigateToSignUp = { navController.navigate(Screens.SignUp.route) },
                                 onNavigateToAdminLogin = { navController.navigate(Screens.AdminLogin.route) },
-                                onLoginSuccess          = {
+                                onLoginSuccess = {
                                     navController.navigate(Screens.UserAccount.route) {
                                         popUpTo(Screens.Login.route) { inclusive = true }
                                     }
@@ -118,14 +161,14 @@ class MainActivity : ComponentActivity() {
                                 onSignUpSuccess = { navController.navigate(Screens.Home.route) }
                             )
                         }
-                    composable(Screens.AdminAccount.route) {
-                        AdminAccount(navController = navController, onSignOut = {
-                            authViewModel.signOut()
-                            navController.navigate(Screens.Login.route) {
-                                popUpTo(Screens.AdminAccount.route) { inclusive = true }
-                            }
-                        })
-                    }
+                        composable(Screens.AdminAccount.route) {
+                            AdminAccount(navController = navController, onSignOut = {
+                                authViewModel.signOut()
+                                navController.navigate(Screens.Login.route) {
+                                    popUpTo(Screens.AdminAccount.route) { inclusive = true }
+                                }
+                            })
+                        }
 
                         composable(Screens.AdminLogin.route) {
                             AdminLogin(
@@ -141,7 +184,11 @@ class MainActivity : ComponentActivity() {
                             SettingsScreen(navController = navController)
                         }
                         composable(Screens.Reviews.route) {
-                            ReviewsScreen(navController = navController,reviewViewModel = hiltViewModel(), innerPadding   = innerPadding)
+                            ReviewsScreen(
+                                navController = navController,
+                                reviewViewModel = hiltViewModel(),
+                                innerPadding = innerPadding
+                            )
                         }
                         composable(Screens.Payment.route) {
                             PaymentScreen(navController = navController)
@@ -156,6 +203,40 @@ class MainActivity : ComponentActivity() {
                             HiringFabScreen()
                         }
                     }
+                    if (showForm) {
+                        Dialog(
+                            onDismissRequest = { showForm = false }
+                        ) {
+                            // Surface so the dialog content can fill the screen
+                            Surface(
+                                modifier = Modifier
+                                    .height(500.dp)
+                                    .padding(16.dp)
+                                    .align(Alignment.Center)
+                            ) {
+
+                                // 2) Properly pass the hoisted state into ContactUs
+                                AnimatedVisibility(visible = showForm) {
+                                    ContactUs(
+                                        modifier = Modifier.padding(top = 16.dp),
+                                        name = name,                           // ← use your state here
+                                        onNameChange = { name = it },
+                                        email = email,
+                                        onEmailChange = { email = it },
+                                        phone = phone,
+                                        onPhoneChange = { phone = it },
+                                        message = message,
+                                        onMessageChange = { message = it },
+                                        onSend = {
+                                            /** add logic here */
+
+                                            showForm = false
+                                        })
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

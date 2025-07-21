@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
@@ -35,7 +37,7 @@ fun CrashCoursesScreen(navController: NavController) {
     var showCard3 by remember { mutableStateOf(false) }
     var showCard4 by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
         Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))) {
             Row {
                 Text(
@@ -67,7 +69,7 @@ fun CrashCoursesScreen(navController: NavController) {
                 }
             }
         }
-        Spacer(modifier = Modifier.height(120.dp))
+        Spacer(modifier = Modifier.height(100.dp))
         Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))) {
             Row {
                 Text(
@@ -97,7 +99,7 @@ fun CrashCoursesScreen(navController: NavController) {
                 }
             }
         }
-        Spacer(modifier = Modifier.height(120.dp))
+        Spacer(modifier = Modifier.height(100.dp))
         Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))) {
             Row {
                 Text(
@@ -128,7 +130,7 @@ fun CrashCoursesScreen(navController: NavController) {
                 }
             }
         }
-        Spacer(modifier = Modifier.height(120.dp))
+        Spacer(modifier = Modifier.height(100.dp))
         Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))) {
             Row {
                 Text(

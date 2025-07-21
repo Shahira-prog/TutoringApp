@@ -44,20 +44,6 @@ fun HomeScreen(navController: NavController,
     var message by remember { mutableStateOf("") }
 
     Scaffold(
-
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { showForm = !showForm },
-                containerColor = Color(0xFFA5D6A7)
-            ) {
-                    Text(
-                        "Contact Us",
-                        modifier = Modifier.padding(10.dp),
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            },
-        floatingActionButtonPosition = FabPosition.End
     ) { innerPadding ->
         Box(
             Modifier
