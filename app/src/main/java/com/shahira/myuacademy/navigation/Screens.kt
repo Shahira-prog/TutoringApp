@@ -13,6 +13,7 @@ sealed class Screens(val route: String) {
     object CrashCourses : Screens("crashcourses")
     object Hiring : Screens("hiring")
     object AdminLogin : Screens("adminlogin")
+    object Calculator : Screens("calculator")
 
 
 }

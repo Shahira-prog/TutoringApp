@@ -36,6 +36,7 @@ import com.shahira.myuacademy.screens.account.AdminLogin
 import com.shahira.myuacademy.screens.account.UserAccount
 import com.shahira.myuacademy.screens.account.UserLogin
 import com.shahira.myuacademy.screens.account.UserSignUp
+import com.shahira.myuacademy.screens.calculator.CalculatorScreen
 import com.shahira.myuacademy.screens.crashcourses.CrashCoursesScreen
 import com.shahira.myuacademy.screens.hiring.HiringFabScreen
 import com.shahira.myuacademy.screens.home.BottomNavBar
@@ -189,6 +190,9 @@ class MainActivity : ComponentActivity() {
                                 reviewViewModel = hiltViewModel(),
                                 innerPadding = innerPadding
                             )
+                        }
+                        composable(Screens.Calculator.route) {
+                            CalculatorScreen(navController = navController)
                         }
                         composable(Screens.Payment.route) {
                             PaymentScreen(navController = navController)

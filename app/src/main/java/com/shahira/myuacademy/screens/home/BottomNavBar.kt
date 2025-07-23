@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
@@ -50,6 +51,11 @@ fun BottomNavBar( navController: NavController,
             title = "Payment",
             icon = Icons.Default.ShoppingCart,
             route = Screens.Payment.route
+        ),
+        BottomNavItem(
+            title = "Calculator",
+            icon = Icons.Default.Add,
+            route = Screens.Calculator.route
         ),
         BottomNavItem(
             title = "Reviews",
@@ -99,10 +105,6 @@ fun BottomNavBar( navController: NavController,
         }
     }
 }
-
-
-
-
 
 data class BottomNavItem(
     val title: String,
