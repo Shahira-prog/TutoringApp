@@ -60,7 +60,7 @@ fun TutoringScreen(navController: NavController) {
             color = Color.Red,
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(75.dp))
+        Spacer(modifier = Modifier.height(25.dp))
 
         Column(modifier = Modifier.padding(16.dp)) {
             Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7)))

@@ -26,15 +26,6 @@ fun CalculatorScreen(navController: NavController) {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            // title
-            Text(
-                text = "Simple Calculator",
-                fontSize = 40.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF125E12),
-                modifier = Modifier.fillMaxWidth().wrapContentHeight())
-
             // calculator ui
             CalculatorCard()
         }

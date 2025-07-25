@@ -69,7 +69,7 @@ fun CrashCoursesScreen(navController: NavController) {
                 }
             }
         }
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))) {
             Row {
                 Text(
@@ -99,7 +99,7 @@ fun CrashCoursesScreen(navController: NavController) {
                 }
             }
         }
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))) {
             Row {
                 Text(
@@ -130,7 +130,7 @@ fun CrashCoursesScreen(navController: NavController) {
                 }
             }
         }
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))) {
             Row {
                 Text(
