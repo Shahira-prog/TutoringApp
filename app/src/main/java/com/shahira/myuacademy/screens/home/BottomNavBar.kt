@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
@@ -20,10 +22,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.shahira.myuacademy.R
 import com.shahira.myuacademy.navigation.Screens
 import com.shahira.myuacademy.viewmodels.AuthViewModel
 
@@ -47,14 +51,15 @@ fun BottomNavBar( navController: NavController,
             icon = Icons.Default.Home,
             route = Screens.Home.route
         ),
-        BottomNavItem(
-            title = "Payment",
-            icon = Icons.Default.ShoppingCart,
-            route = Screens.Payment.route
-        ),
+//        BottomNavItem(
+//            title = "Payment",
+//            icon = Icons.Default.ShoppingCart,
+//            route = Screens.Payment.route
+//        ),
         BottomNavItem(
             title = "Calculator",
-            icon = Icons.Default.Add,
+//            icon = ImageVector.vectorResource(id=R.drawable.calculator),
+            icon = Icons.Default.AddCircle,
             route = Screens.Calculator.route
         ),
         BottomNavItem(

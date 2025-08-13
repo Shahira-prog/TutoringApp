@@ -137,7 +137,6 @@ fun AdminAccount(
                                     "Phone: ${reg.phone}",
                                     style = MaterialTheme.typography.bodyMedium
                                 )
-                                Text("DOB: ${reg.dob}", style = MaterialTheme.typography.bodyMedium)
                                 Text(
                                     "Grade: ${reg.gradeLevel}",
                                     style = MaterialTheme.typography.bodyMedium

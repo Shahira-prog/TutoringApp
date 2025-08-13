@@ -11,8 +11,7 @@ data class RegistrationEntity(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val phone: Int,
-    val dob: Int,
+    val phone: String,
     val gradeLevel: Int,
     val accepted: Boolean
 

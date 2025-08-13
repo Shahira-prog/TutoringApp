@@ -8,7 +8,7 @@ import com.shahira.myuacademy.dataclasses.RegistrationEntity
 import com.shahira.myuacademy.dataclasses.Review
 
 // creates database with registrations table inside
-@Database(entities = [RegistrationEntity::class, Review::class], version = 5)
+@Database(entities = [RegistrationEntity::class, Review::class], version = 6)
 abstract class AppDatabase : RoomDatabase() {
     // connects database to dao (to communicate with database)
     abstract fun registrationDao(): RegistrationDao

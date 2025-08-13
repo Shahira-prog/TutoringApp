@@ -8,12 +8,15 @@ sealed class Screens(val route: String) {
    object Login : Screens("login")
    object SignUp : Screens("signup")
     object Reviews : Screens("reviews")
-    object Payment : Screens("payment")
+    //object Payment : Screens("payment")
     object Tutoring : Screens("tutoring")
     object CrashCourses : Screens("crashcourses")
     object Hiring : Screens("hiring")
     object AdminLogin : Screens("adminlogin")
     object Calculator : Screens("calculator")
+    object OneHour: Screens("onehour")
+    object Website: Screens("website")
+    object CourseDetails : Screens("coursedetails")
 
 
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -54,120 +55,127 @@ fun HiringScreen(
     onAttachment: () -> Unit = {}
 ) {
     Card(
-        modifier = modifier
-            .requiredSize(width = 380.dp, height = 650.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(Color(0xFFA5D6A7))
-            .padding(10.dp),
-        //elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7)),
+            modifier = Modifier.width(320.dp)
+                .padding(16.dp),
+            colors = CardDefaults.cardColors()
+
+//        modifier = modifier
+//            .requiredSize(width = 380.dp, height = 650.dp)
+//            .clip(RoundedCornerShape(16.dp))
+//            //.background(Color(0xFFA5D6A7))
+//            .padding(10.dp),
+//        //elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+//        colors = CardDefaults.cardColors(),
     ) {
-        Text(
-            text = "Apply Now",
-            color = Color.Black,
-            fontSize = 35.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth())
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        Column {
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            OutlinedTextField(
-                value = name,
-                onValueChange = onNameChange,
-                label = { Text("Name") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color.White
-                )
+        Column(modifier = Modifier.padding(10.dp)) {
+            Text(
+                text = "Apply Now",
+                color = Color.Black,
+                fontSize = 25.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            //Spacer(modifier = Modifier.height(15.dp))
 
-            OutlinedTextField(
-                value = email,
-                onValueChange = onEmailChange,
-                label = { Text("Email") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color.White
-                )
-            )
+            Column(modifier = Modifier.padding(10.dp)) {
 
-            Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-            OutlinedTextField(
-                value = phone,
-                onValueChange = onPhoneChange,
-                label = { Text("Phone") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color.White
-                )
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            OutlinedTextField(
-                value = position,
-                onValueChange = onPositionChange,
-                label = { Text("Position") },
-                singleLine = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color.White
-                )
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            OutlinedTextField(
-                value = startingDate,
-                onValueChange = onStartingDateChange,
-                label = { Text("Starting Date") },
-                singleLine = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color.White
-                )
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-            Row {
-
-                Button(
-                    onClick = onAttachment,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF125E12),
-                        contentColor = Color.White
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = onNameChange,
+                    label = { Text("Name") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        containerColor = Color.White
                     )
-                ) {
-                    Text("Attach Resume")
-                }
+                )
 
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(8.dp))
 
-                Button(
-                    onClick = onSend,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF125E12),
-                        contentColor = Color.White
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = onEmailChange,
+                    label = { Text("Email") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        containerColor = Color.White
                     )
-                ) {
-                    Text("Submit")
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                OutlinedTextField(
+                    value = phone,
+                    onValueChange = onPhoneChange,
+                    label = { Text("Phone") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        containerColor = Color.White
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                OutlinedTextField(
+                    value = position,
+                    onValueChange = onPositionChange,
+                    label = { Text("Position") },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        containerColor = Color.White
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                OutlinedTextField(
+                    value = startingDate,
+                    onValueChange = onStartingDateChange,
+                    label = { Text("Starting Date") },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        containerColor = Color.White
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+                Row {
+
+                    Button(
+                        onClick = onAttachment,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFA5D6A7),
+                            contentColor = Color.Black
+                        )
+                    ) {
+                        Text("Attach Resume")
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Button(
+                        onClick = onSend,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFA5D6A7),
+                            contentColor = Color.Black
+                        )
+                    ) {
+                        Text("Submit")
+                    }
                 }
             }
         }

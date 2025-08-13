@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+//import com.shahira.myuacademy
 import com.shahira.myuacademy.R
 
 @Composable
@@ -33,7 +34,10 @@ fun PhotoGallery(
         R.drawable.photo9,
         R.drawable.photo10,
         R.drawable.photo11,
-        R.drawable.photo12
+        R.drawable.photo12,
+        R.drawable.photo13,
+        R.drawable.photo14
+
     )
     // the pager state
     val pagerState = rememberPagerState { photos.size }

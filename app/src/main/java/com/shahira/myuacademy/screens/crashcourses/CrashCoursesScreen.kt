@@ -1,236 +1,173 @@
 package com.shahira.myuacademy.screens.crashcourses
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
+import com.shahira.myuacademy.navigation.Screens
+import com.shahira.myuacademy.repositories.CourseRepository
 
 @Composable
 fun CrashCoursesScreen(navController: NavController) {
+    val courseList = CourseRepository.allCourses
 
-    var showCard by remember { mutableStateOf(false) }
-    var showCard2 by remember { mutableStateOf(false) }
-    var showCard3 by remember { mutableStateOf(false) }
-    var showCard4 by remember { mutableStateOf(false) }
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        item {
+            Text(
+                text = "MyU Academy 2025 Fall Courses\n Sep. 25-Dec. 25",
+                modifier = Modifier
+                    .padding(20.dp)
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        itemsIndexed(courseList) { idx, course ->
+            MyCustomItem(
+                i = course,
+                onDetailsClick = {
+                    navController.navigate("${Screens.CourseDetails.route}/$idx")
+                }
+            )
+        }
 
-    Column(modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
-        Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))) {
+    }
+}
+
+@Composable
+fun MyCustomItem(i: Course, onDetailsClick: () -> Unit) {
+   // val context = LocalContext.current
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(10.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth()
+        ) {
             Row {
-                Text(
-                    text = "SAT English Prep",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp,
-                    modifier = Modifier.padding(30.dp)
+
+                Image(
+                    painter = painterResource(id = i.icon),
+                    contentDescription = "team pic",
+                    modifier = Modifier
+                        .height(150.dp)
+                        .width(100.dp)
+                        .padding(start = 10.dp, end = 5.dp)
                 )
-                Spacer(modifier = Modifier.weight(1f))
 
-                Text(
-                    text = "$399",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp,
-                    modifier = Modifier.padding(30.dp)
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                // clickable button that says "Details"
-                TextButton(
-                    onClick = { showCard = true },
-                    modifier = Modifier.align(Alignment.CenterVertically)) {
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(15.dp)) {
                     Text(
-                        text = "Details",
+                        text = i.title,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                        //modifier = Modifier.background(Color.Green)
+                    )
+
+                    Spacer(modifier = Modifier.height(7.dp))
+                    Text(
+                        text = "Course Price: " + i.price,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold
+                        //modifier = Modifier.background(Color.Green)
+                    )
+
+                    Spacer(modifier = Modifier.height(7.dp))
+                    Text(
+                        text = "Course Status: " + i.status,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold
+                        //modifier = Modifier.background(Color.Green)
+                    )
+
+                    Spacer(modifier = Modifier.height(7.dp))
+                    Text(
+                        text = "Course Length: " + i.length,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold
+                        //modifier = Modifier.background(Color.Green)
+                    )
+
+                    Spacer(Modifier.height(7.dp))
+                    Text(
+                        "More Details",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
                         color = Color.Blue,
-                        fontSize = 17.sp,
-                        //fontWeight = FontWeight.Bold,
-                        textDecoration = TextDecoration.Underline
+                        modifier = Modifier.clickable {
+                            onDetailsClick()
+                        }
                     )
                 }
             }
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))) {
-            Row {
-                Text(
-                    text = "SAT Math Prep",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp,
-                    modifier = Modifier.padding(30.dp)                )
-                Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(7.dp))
+            Text(
+                text = i.description.substring(0, 150),
+                fontSize = 15.sp,
+                modifier = Modifier.padding(bottom = 10.dp)
+            )
 
-                Text(
-                    text = "$399",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp,
-                    modifier = Modifier.padding(30.dp)                )
-                Spacer(modifier = Modifier.weight(1f))
-                // clickable button that says "Details"
-                TextButton(
-                    onClick = { showCard2 = true },
-                    modifier = Modifier.align(Alignment.CenterVertically)) {
-                    Text(
-                        text = "Details",
-                        color = Color.Blue,
-                        fontSize = 17.sp,
-                        //fontWeight = FontWeight.Bold,
-                        textDecoration = TextDecoration.Underline
-                    )
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))) {
-            Row {
-                Text(
-                    text = "Android Mobile\nApp Development",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp,
-                    modifier = Modifier.padding(30.dp)
-                )
-                Spacer(modifier = Modifier.weight(1f))
 
-                Text(
-                    text = "$399",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp,
-                    modifier = Modifier.padding(top = 40.dp, end = 20.dp))
-                Spacer(modifier = Modifier.weight(1f))
-                // clickable button that says "book now"
-                TextButton(
-                    onClick = { showCard3 = true },
-                    modifier = Modifier.align(Alignment.CenterVertically)) {
-                    Text(
-                        text = "Details",
-                        color = Color.Blue,
-                        fontSize = 17.sp,
-                        //fontWeight = FontWeight.Bold,
-                        textDecoration = TextDecoration.Underline
-                    )
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFA5D6A7))) {
-            Row {
-                Text(
-                    text = "AMC8-10 Prep",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp,
-                    modifier = Modifier.padding(30.dp)                )
-                Spacer(modifier = Modifier.weight(1f))
-
-                Text(
-                    text = "$399",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp,
-                    modifier = Modifier.padding(30.dp)                )
-                Spacer(modifier = Modifier.weight(1f))
-                // clickable button that says "Details"
-                TextButton(
-                    onClick = { showCard4 = true },
-                    modifier = Modifier.align(Alignment.CenterVertically)) {
-                    Text(
-                        text = "Details",
-                        color = Color.Blue,
-                        fontSize = 17.sp,
-                        //fontWeight = FontWeight.Bold,
-                        textDecoration = TextDecoration.Underline
-                    )
-                }
-            }
-        }
-    }
-    if (showCard) {
-        Dialog(
-            onDismissRequest = { showCard = false }
-        ) {
-            // Surface so the dialog content can fill the screen
-            Surface(
-                modifier = Modifier
-                    .width(300.dp)           // or .fillMaxWidth(0.9f)
-                    .wrapContentHeight()     // only as tall as your card needs
-                    .padding(16.dp),
-                tonalElevation = 8.dp,
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                // but tapping outside or pressing register closes registration form
-                SATEnglishCard(navController = navController)
-            }
-        }
-    }
-    if (showCard2) {
-        Dialog(
-            onDismissRequest = { showCard2 = false }
-        ) {
-            // Surface so the dialog content can fill the screen
-            Surface(
-                modifier = Modifier
-                    .width(300.dp)           // or .fillMaxWidth(0.9f)
-                    .wrapContentHeight()     // only as tall as your card needs
-                    .padding(16.dp),
-                tonalElevation = 8.dp,
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                // but tapping outside or pressing register closes registration form
-                SATMathCard(navController = navController)
-            }
-        }
-    }
-    if (showCard3) {
-        Dialog(
-            onDismissRequest = { showCard3 = false }
-        ) {
-            // Surface so the dialog content can fill the screen
-            Surface(
-                modifier = Modifier
-                    .width(300.dp)           // or .fillMaxWidth(0.9f)
-                    .wrapContentHeight()     // only as tall as your card needs
-                    .padding(16.dp),
-                tonalElevation = 8.dp,
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                // but tapping outside or pressing register closes registration form
-                AMADCard(navController = navController)
-            }
-        }
-    }
-    if (showCard4) {
-        Dialog(
-            onDismissRequest = { showCard4 = false }
-        ) {
-            // Surface so the dialog content can fill the screen
-            Surface(
-                modifier = Modifier
-                    .width(300.dp)           // or .fillMaxWidth(0.9f)
-                    .wrapContentHeight()     // only as tall as your card needs
-                    .padding(16.dp),
-                tonalElevation = 8.dp,
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                // but tapping outside or pressing register closes registration form
-                AMC8Card(navController = navController)
-            }
         }
     }
 }
+
+
+data class Course(
+    val title: String,
+    val icon: Int,
+    val price: String,
+    val description: String,
+    val details: () -> Unit,
+    val status: String,
+    val length: String,
+    val location: String,
+    val daystimes: String,
+    val meetingdates: String
+
+)
+
+//
+//Course Information o Instructor Information
+//o Credits: 3
+//o Course No: 37969
+//o Days & Times: MoWe 6:00pm-7:45pm
+//o Location: ZOOM
+//o Meeting Dates: 5/19/2025-8/11/2025
+//o Course ID:
+
+
+
+
+
+
+
+//Toast.makeText(
+//                                context,
+//                                "Opening details for ${i.title}",
+//                                Toast.LENGTH_SHORT
+//                            ).show()

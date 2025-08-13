@@ -27,16 +27,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.shahira.myuacademy.navigation.Screens
+import com.shahira.myuacademy.navigation.WebsiteScreen
+import com.shahira.myuacademy.repositories.CourseRepository
 import com.shahira.myuacademy.screens.account.AdminAccount
 import com.shahira.myuacademy.screens.account.AdminLogin
 import com.shahira.myuacademy.screens.account.UserAccount
 import com.shahira.myuacademy.screens.account.UserLogin
 import com.shahira.myuacademy.screens.account.UserSignUp
 import com.shahira.myuacademy.screens.calculator.CalculatorScreen
+import com.shahira.myuacademy.screens.crashcourses.CourseDetailsScreen
 import com.shahira.myuacademy.screens.crashcourses.CrashCoursesScreen
 import com.shahira.myuacademy.screens.hiring.HiringFabScreen
 import com.shahira.myuacademy.screens.home.BottomNavBar
@@ -46,6 +51,7 @@ import com.shahira.myuacademy.screens.home.MyTopAppBar
 import com.shahira.myuacademy.screens.payment.PaymentScreen
 import com.shahira.myuacademy.screens.reviews.ReviewsScreen
 import com.shahira.myuacademy.screens.settings.SettingsScreen
+import com.shahira.myuacademy.screens.tutoring.OneHourCard
 import com.shahira.myuacademy.screens.tutoring.TutoringScreen
 import com.shahira.myuacademy.viewmodels.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,7 +63,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
 
-            // navigation
             val navController = rememberNavController()
 
             var showForm by remember { mutableStateOf(false) }
@@ -76,30 +81,21 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
+            //val web="www.myuacademy.net/tutoring-calculus-geometry-algebra"
+
             Scaffold(
             // all 3 always on screen
-            topBar    = { MyTopAppBar(
-                onSettingsClick = { navController.navigate(Screens.Settings.route) },
-                onCrashCoursesClick = { navController.navigate(Screens.CrashCourses.route) },
-                onTutoringClick = { navController.navigate(Screens.Tutoring.route) },
-                onHiringClick = { navController.navigate(Screens.Hiring.route) }) },
-
-            bottomBar = { BottomNavBar(navController) },
-
-                floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = { showForm = !showForm },
-                        containerColor = Color(0xFF125E12),
-                    ) {
-                        Text(
-                            "Contact Us",
-                            modifier = Modifier.padding(10.dp),
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-                    }
+                topBar = {
+                    MyTopAppBar(
+                        onSettingsClick = { navController.navigate(Screens.Settings.route) },
+                        onCrashCoursesClick = { navController.navigate(Screens.CrashCourses.route) },
+                        onTutoringClick = { navController.navigate(Screens.Tutoring.route) },
+                        onHiringClick = { navController.navigate(Screens.Hiring.route) })
                 },
-                floatingActionButtonPosition = FabPosition.End,
+
+                bottomBar = { BottomNavBar(navController) },
+
+                floatingActionButton = { ContactUs() }
             )
 
             { innerPadding ->
@@ -113,9 +109,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screens.Home.route,
                         modifier = Modifier
                             .fillMaxSize()
-                        //.padding(innerPadding)
                     ) {
-                        //each screen is a composable function
                         composable(Screens.Home.route) {
                             val authViewModel: AuthViewModel = hiltViewModel()
                             val isAdmin by authViewModel
@@ -184,6 +178,8 @@ class MainActivity : ComponentActivity() {
                         composable(Screens.Settings.route) {
                             SettingsScreen(navController = navController)
                         }
+
+
                         composable(Screens.Reviews.route) {
                             ReviewsScreen(
                                 navController = navController,
@@ -191,20 +187,47 @@ class MainActivity : ComponentActivity() {
                                 innerPadding = innerPadding
                             )
                         }
+
+
                         composable(Screens.Calculator.route) {
                             CalculatorScreen(navController = navController)
                         }
-                        composable(Screens.Payment.route) {
-                            PaymentScreen(navController = navController)
-                        }
+//                        composable(Screens.Payment.route) {
+//                            PaymentScreen(navController = navController)
+//                        }
                         composable(Screens.CrashCourses.route) {
-                            CrashCoursesScreen(navController = navController)
+                            CrashCoursesScreen(
+                               // courseList = CourseRepository.allCourses,
+                                navController = navController
+                            )
                         }
+                        composable(
+                            route = Screens.CourseDetails.route + "/{index}",
+                            arguments = listOf(navArgument("index") {
+                                type = NavType.IntType
+                            })
+                        ) { backStackEntry ->
+                            val idx = backStackEntry.arguments!!.getInt("index")
+                           val course = CourseRepository.allCourses[idx]
+                            CourseDetailsScreen(
+                                course = course,
+                                //onBack = { navController.popBackStack() }
+                            )
+                        }
+
                         composable(Screens.Tutoring.route) {
                             TutoringScreen(navController = navController)
                         }
                         composable(Screens.Hiring.route) {
                             HiringFabScreen()
+                        }
+
+                        composable(Screens.OneHour.route) {
+                            OneHourCard(navController = navController)
+                        }
+
+                        composable(Screens.Website.route) {
+                            WebsiteScreen()
                         }
                     }
                     if (showForm) {
@@ -220,23 +243,23 @@ class MainActivity : ComponentActivity() {
                             ) {
 
                                 // 2) Properly pass the hoisted state into ContactUs
-                                AnimatedVisibility(visible = showForm) {
-                                    ContactUs(
-                                        modifier = Modifier.padding(top = 16.dp),
-                                        name = name,                           // ← use your state here
-                                        onNameChange = { name = it },
-                                        email = email,
-                                        onEmailChange = { email = it },
-                                        phone = phone,
-                                        onPhoneChange = { phone = it },
-                                        message = message,
-                                        onMessageChange = { message = it },
-                                        onSend = {
-                                            /** add logic here */
-
-                                            showForm = false
-                                        })
-                                }
+//                                AnimatedVisibility(visible = showForm) {
+//                                    ContactUs(
+//                                        modifier = Modifier.padding(top = 16.dp),
+//                                        name = name,                           // ← use your state here
+//                                        onNameChange = { name = it },
+//                                        email = email,
+//                                        onEmailChange = { email = it },
+//                                        phone = phone,
+//                                        onPhoneChange = { phone = it },
+//                                        message = message,
+//                                        onMessageChange = { message = it },
+//                                        onSend = {
+//                                            /** add logic here */
+//
+//                                            showForm = false
+//                                        })
+//                                }
                             }
                         }
                     }

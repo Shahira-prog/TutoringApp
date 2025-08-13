@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -43,9 +44,8 @@ fun UserAccount(
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var phone by remember { mutableStateOf(0) }
+    var phone by remember { mutableStateOf("") }
     var gradeLevel by remember { mutableStateOf(0) }
-    var dob by remember { mutableStateOf(0) }
     var selectedOption by remember { mutableStateOf("I Accept") }
 
     // Profile photo state and launcher
@@ -121,12 +121,14 @@ fun UserAccount(
                 // Surface so the dialog content can fill the screen
                 Surface(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxWidth()
+                        .heightIn(max = 650.dp)             // ← cap the vertical size
                         .padding(16.dp)
                 ) {
                     // but tapping outside or pressing register closes registration form
                     Registration(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxWidth().heightIn(max = 650.dp)             // ← cap the vertical size
+                        ,
                         firstName = firstName,
                         onFirstNameChange = { firstName = it },
                         lastName = lastName,
@@ -137,8 +139,6 @@ fun UserAccount(
                         onPhoneChange = { phone = it },
                         gradeLevel = gradeLevel,
                         onGradeLevelChange = { gradeLevel = it },
-                        dob = dob,
-                        onDobChange = { dob = it },
                         selectedOption = selectedOption,
                         onOptionChange = { selectedOption = it },
                         onSend = {
@@ -148,7 +148,6 @@ fun UserAccount(
                                     lastName = lastName,
                                     email = email,
                                     phone = phone,
-                                    dob = dob,
                                     gradeLevel = gradeLevel,
                                     accepted = selectedOption == "I Accept"
 

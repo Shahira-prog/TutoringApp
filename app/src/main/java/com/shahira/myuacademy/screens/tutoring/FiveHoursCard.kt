@@ -52,14 +52,14 @@ fun FiveHourCard(navController: NavController)
             )
             Spacer(modifier = Modifier.height(22.dp))
 
-            TextButton(onClick = { navController.navigate(Screens.Payment.route)},
-                modifier = Modifier.align(Alignment.CenterHorizontally)){
-                Text(text = "Book Now",
-                    fontSize = 20.sp,
-                    color = Color.Blue,
-                    fontWeight = FontWeight.Bold,
-                    textDecoration = TextDecoration.Underline)
-            }
+//            TextButton(onClick = { navController.navigate(Screens.Payment.route)},
+//                modifier = Modifier.align(Alignment.CenterHorizontally)){
+//                Text(text = "Book Now",
+//                    fontSize = 20.sp,
+//                    color = Color.Blue,
+//                    fontWeight = FontWeight.Bold,
+//                    textDecoration = TextDecoration.Underline)
+//            }
             Box(modifier = Modifier.fillMaxSize()) {
                 Text(
                     modifier = Modifier.align(Alignment.BottomStart),
